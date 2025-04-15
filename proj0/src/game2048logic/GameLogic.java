@@ -62,8 +62,21 @@ public class GameLogic {
      * @param c         the column to tilt up.
      */
     public static void tiltColumn(int[][] board, int c) {
-        // TODO: fill this in in task 5
-        return;
+        // Keep track of the minimum row where the next tile can be placed
+        // Start with 0 (the top row)
+        int minRow = 0;
+        
+        // Process each tile in the column from top to bottom
+        for (int r = 0; r < board.length; r++) {
+            // Move the current tile up as far as possible, respecting minRow
+            int mergeResult = moveTileUpAsFarAsPossible(board, r, c, minRow);
+            
+            // If a merge occurred, update minRow to be one past the merge location
+            // This prevents double merges in the same column
+            if (mergeResult > 0) {
+                minRow = mergeResult;
+            }
+        }
     }
 
     /**
