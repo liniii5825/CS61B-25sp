@@ -137,24 +137,121 @@ public class LinkedListDeque61BTest {
      */
     public void testGetRecursive() {
         Deque61B<String> lld1 = new LinkedListDeque61B<>();
-        
+
         // Test on empty deque
         assertThat(lld1.getRecursive(0)).isNull();
-        
+
         // Test with one element
         lld1.addLast("first");
         assertThat(lld1.getRecursive(0)).isEqualTo("first");
-        
+
         // Test with multiple elements
         lld1.addLast("second");
         lld1.addLast("third");
         assertThat(lld1.getRecursive(0)).isEqualTo("first");
         assertThat(lld1.getRecursive(1)).isEqualTo("second");
         assertThat(lld1.getRecursive(2)).isEqualTo("third");
-        
+
         // Test with invalid indices
         assertThat(lld1.getRecursive(-1)).isNull();
         assertThat(lld1.getRecursive(3)).isNull();
         assertThat(lld1.getRecursive(28723)).isNull();
+    }
+    
+    @Test
+    /**
+     * This test checks the behavior of the removeFirst method.
+     * It verifies that removeFirst returns the correct item and updates the deque properly.
+     */
+    public void testRemoveFirst() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+        
+        // Test on empty deque
+        assertThat(lld1.removeFirst()).isNull();
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test with one element
+        lld1.addFirst("only");
+        assertThat(lld1.removeFirst()).isEqualTo("only");
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test with multiple elements
+        lld1.addLast("front");  // [front]
+        lld1.addLast("middle"); // [front, middle]
+        lld1.addLast("back");   // [front, middle, back]
+        
+        assertThat(lld1.removeFirst()).isEqualTo("front");
+        assertThat(lld1.toList()).containsExactly("middle", "back").inOrder();
+        
+        assertThat(lld1.removeFirst()).isEqualTo("middle");
+        assertThat(lld1.toList()).containsExactly("back").inOrder();
+        
+        assertThat(lld1.removeFirst()).isEqualTo("back");
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test that size is updated correctly
+        assertThat(lld1.size()).isEqualTo(0);
+    }
+
+    @Test
+    /**
+     * This test checks the behavior of the removeLast method.
+     * It verifies that removeLast returns the correct item and updates the deque properly.
+     */
+    public void testRemoveLast() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+        
+        // Test on empty deque
+        assertThat(lld1.removeLast()).isNull();
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test with one element
+        lld1.addFirst("only");
+        assertThat(lld1.removeLast()).isEqualTo("only");
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test with multiple elements
+        lld1.addLast("front");  // [front]
+        lld1.addLast("middle"); // [front, middle]
+        lld1.addLast("back");   // [front, middle, back]
+        
+        assertThat(lld1.removeLast()).isEqualTo("back");
+        assertThat(lld1.toList()).containsExactly("front", "middle").inOrder();
+        
+        assertThat(lld1.removeLast()).isEqualTo("middle");
+        assertThat(lld1.toList()).containsExactly("front").inOrder();
+        
+        assertThat(lld1.removeLast()).isEqualTo("front");
+        assertThat(lld1.toList()).isEmpty();
+        
+        // Test that size is updated correctly
+        assertThat(lld1.size()).isEqualTo(0);
+    }
+
+    @Test
+    /**
+     * This test performs interspersed add and remove operations.
+     */
+    public void testMixedAddAndRemove() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        
+        lld1.addFirst(10);      // [10]
+        lld1.addLast(20);       // [10, 20]
+        lld1.addFirst(5);       // [5, 10, 20]
+        
+        assertThat(lld1.removeFirst()).isEqualTo(5);  // [10, 20]
+        assertThat(lld1.toList()).containsExactly(10, 20).inOrder();
+        
+        lld1.addLast(30);       // [10, 20, 30]
+        lld1.addFirst(0);       // [0, 10, 20, 30]
+        
+        assertThat(lld1.removeLast()).isEqualTo(30);  // [0, 10, 20]
+        assertThat(lld1.toList()).containsExactly(0, 10, 20).inOrder();
+        
+        assertThat(lld1.removeFirst()).isEqualTo(0);  // [10, 20]
+        assertThat(lld1.removeLast()).isEqualTo(20);  // [10]
+        assertThat(lld1.toList()).containsExactly(10).inOrder();
+        
+        assertThat(lld1.size()).isEqualTo(1);
     }
 }
