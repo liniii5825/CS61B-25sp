@@ -23,20 +23,20 @@ public class GameLogic {
         if (board[r][c] == 0) {
             return 0;
         }
-        
+
         // Start checking from the row above the current position
         int newRow = r;
-        
-        // Move up as long as we're not at row 0 and the cell above is empty
-        while (newRow > 0 && board[newRow - 1][c] == 0) {
+
+        // Move up as long as we're above minR and the cell above is empty
+        while (newRow > minR && board[newRow - 1][c] == 0) {
             newRow--;
         }
-        
+
         // Store the value of the current tile
         int tileValue = board[r][c];
-        
-        // Check if we can merge with the tile above
-        if (newRow > 0 && board[newRow - 1][c] == tileValue) {
+
+        // Check if we can merge with the tile above (but not above minR)
+        if (newRow > minR && board[newRow - 1][c] == tileValue) {
             // Merge: double the value in the destination cell
             board[newRow - 1][c] *= 2;
             // Clear the original cell
