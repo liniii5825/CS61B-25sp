@@ -36,14 +36,30 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
     }
     
 
+    /** 
+     * Adds an item to the head of the deque.
+     * A new node is created with the item, and it is added to the head of the deque.
+     * The size is incremented by 1.
+     */
     @Override
     public void addFirst(T x) {
-
+        Node newNode = new Node(x, sentinel, sentinel.next);
+        sentinel.next.prev = newNode;
+        sentinel.next = newNode;
+        size += 1;
     }
 
+    /** 
+     * Adds an item to the end of the deque.
+     * A new node is created with the item, and it is added to the end of the deque.
+     * The size is incremented by 1.
+     */
     @Override
     public void addLast(T x) {
-
+        Node newNode = new Node(x, sentinel.prev, sentinel);
+        sentinel.prev.next = newNode;
+        sentinel.prev = newNode;
+        size += 1;
     }
 
     @Override
