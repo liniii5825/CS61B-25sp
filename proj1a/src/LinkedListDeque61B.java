@@ -98,9 +98,25 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         return null;
     }
 
+    /** 
+     * Returns the item at the specified index.
+     * If the index is invalid, it returns null.
+     * The method traverses the list to find the node at the specified index.
+     */
     @Override
     public T get(int index) {
-        return null;
+        // Return null for invalid indices
+        if (index < 0 || index >= size) {
+            return null;
+        }
+        
+        // Traverse the list to find the node at the specified index
+        Node current = sentinel.next;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        
+        return current.item;
     }
 
     @Override

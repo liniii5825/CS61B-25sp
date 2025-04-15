@@ -86,19 +86,48 @@ public class LinkedListDeque61BTest {
      */
     public void testSize() {
         Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
-        
+
         // Test on empty deque
         assertThat(lld1.size()).isEqualTo(0);
-        
+
         // Test after adding elements
         lld1.addFirst(10);
         assertThat(lld1.size()).isEqualTo(1);
-        
+
         lld1.addLast(20);
         assertThat(lld1.size()).isEqualTo(2);
-        
+
         lld1.addFirst(5);
         lld1.addLast(25);
         assertThat(lld1.size()).isEqualTo(4);
+    }
+    
+    @Test
+    /**
+     * This test checks the behavior of the get method.
+     * It verifies that the get method returns the correct item at the given index,
+     * and returns null for invalid indices.
+     */
+    public void testGet() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+        
+        // Test on empty deque
+        assertThat(lld1.get(0)).isNull();
+        
+        // Test with one element
+        lld1.addLast("first");
+        assertThat(lld1.get(0)).isEqualTo("first");
+        
+        // Test with multiple elements
+        lld1.addLast("second");
+        lld1.addLast("third");
+        assertThat(lld1.get(0)).isEqualTo("first");
+        assertThat(lld1.get(1)).isEqualTo("second");
+        assertThat(lld1.get(2)).isEqualTo("third");
+        
+        // Test with invalid indices
+        assertThat(lld1.get(-1)).isNull();
+        assertThat(lld1.get(3)).isNull();
+        assertThat(lld1.get(28723)).isNull();
     }
 }
