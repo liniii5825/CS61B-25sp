@@ -109,18 +109,39 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        
+
         // Traverse the list to find the node at the specified index
         Node current = sentinel.next;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
-        
+
         return current.item;
     }
 
+    /** 
+     * Returns the item at the specified index using recursion.
+     * If the index is invalid, it returns null.
+     * The method calls a recursive helper method to find the node at the specified index.
+     */
     @Override
     public T getRecursive(int index) {
-        return null;
+        // Return null for invalid indices
+        if (index < 0 || index >= size) {
+            return null;
+        }
+
+        // Call the recursive helper method to get the item at the specified index
+        return getRecursiveHelper(sentinel.next, index);
+    }
+    
+    private T getRecursiveHelper(Node current, int index) {
+        // Base case: if the index is 0, return the item at the current node
+        if (index == 0) {
+            return current.item;
+        }
+
+        // Recursive case: move to the next node and decrement the index
+        return getRecursiveHelper(current.next, index - 1);
     }
 }

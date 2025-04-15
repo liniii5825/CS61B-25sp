@@ -110,24 +110,51 @@ public class LinkedListDeque61BTest {
      */
     public void testGet() {
         Deque61B<String> lld1 = new LinkedListDeque61B<>();
-        
+
         // Test on empty deque
         assertThat(lld1.get(0)).isNull();
-        
+
         // Test with one element
         lld1.addLast("first");
         assertThat(lld1.get(0)).isEqualTo("first");
-        
+
         // Test with multiple elements
         lld1.addLast("second");
         lld1.addLast("third");
         assertThat(lld1.get(0)).isEqualTo("first");
         assertThat(lld1.get(1)).isEqualTo("second");
         assertThat(lld1.get(2)).isEqualTo("third");
-        
+
         // Test with invalid indices
         assertThat(lld1.get(-1)).isNull();
         assertThat(lld1.get(3)).isNull();
         assertThat(lld1.get(28723)).isNull();
+    }
+    
+    @Test
+    /**
+     * The same as the previous testGet method, but using recursion instead of iteration.
+     */
+    public void testGetRecursive() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+        
+        // Test on empty deque
+        assertThat(lld1.getRecursive(0)).isNull();
+        
+        // Test with one element
+        lld1.addLast("first");
+        assertThat(lld1.getRecursive(0)).isEqualTo("first");
+        
+        // Test with multiple elements
+        lld1.addLast("second");
+        lld1.addLast("third");
+        assertThat(lld1.getRecursive(0)).isEqualTo("first");
+        assertThat(lld1.getRecursive(1)).isEqualTo("second");
+        assertThat(lld1.getRecursive(2)).isEqualTo("third");
+        
+        // Test with invalid indices
+        assertThat(lld1.getRecursive(-1)).isNull();
+        assertThat(lld1.getRecursive(3)).isNull();
+        assertThat(lld1.getRecursive(28723)).isNull();
     }
 }
