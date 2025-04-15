@@ -99,15 +99,36 @@ public class GameLogic {
      * @param side  the direction to tilt
      */
     public static void tilt(int[][] board, Side side) {
-        // TODO: fill this in in task 7
-        if (side == Side.EAST) {
-            return;
-        } else if (side == Side.WEST) {
-            return;
-        } else if (side == Side.SOUTH) {
-            return;
-        } else {
-            return;
+        // Handle different directions by rotating the board,
+        // applying tiltUp, then rotating back
+        switch (side) {
+            case NORTH:
+                // North is already up, so just tilt up
+                tiltUp(board);
+                break;
+            case EAST:
+                // Rotate back (90° counter-clockwise)
+                rotateLeft(board);
+                tiltUp(board);
+                // Rotate board left once (90° clockwise)
+                rotateRight(board);
+                break;
+            case SOUTH:
+                // Rotate board left twice (180°)
+                rotateRight(board);
+                rotateRight(board);
+                tiltUp(board);
+                // Rotate back (180°)
+                rotateLeft(board);
+                rotateLeft(board);
+                break;
+            case WEST:
+                // Rotate back (90° clockwise)
+                rotateRight(board);
+                tiltUp(board);
+                // Rotate board left thrice (270° clockwise or 90° counter-clockwise)
+                rotateLeft(board);
+                break;
         }
     }
 }
