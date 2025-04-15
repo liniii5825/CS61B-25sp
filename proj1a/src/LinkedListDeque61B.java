@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedListDeque61B<T> implements Deque61B<T> {
@@ -62,9 +63,19 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         size += 1;
     }
 
+    /** 
+     * Returns the item at the front of the deque.
+     * If the deque is empty, it returns null.
+     */
     @Override
     public List<T> toList() {
-        return List.of();
+        ArrayList<T> result = new ArrayList<>();
+        Node current = sentinel.next;
+        while (current != sentinel) {
+            result.add(current.item);
+            current = current.next;
+        }
+        return result;
     }
 
     @Override
