@@ -12,14 +12,33 @@ public class GameLogic {
      *
      * @param board the current state of the board
      * @param r     the row number of the tile to move up
-     * @param c -   the column number of the tile to move up
+     * @param c     the column number of the tile to move up
      * @param minR  the minimum row number that the tile can land in, e.g.
      *              if minR is 2, the moving tile should move no higher than row 2.
      * @return      if there is a merge, returns the 1 + the row number where the merge occurred.
      *              if no merge occurs, then return 0.
      */
     public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
-        // TODO: Fill this in in tasks 2, 3, 4
+        // If the current tile is 0 (empty), no need to move anything
+        if (board[r][c] == 0) {
+            return 0;
+        }
+        
+        // Start checking from the row above the current position
+        int newRow = r;
+        
+        // Move up as long as we're not at row 0 and the cell above is empty
+        while (newRow > 0 && board[newRow - 1][c] == 0) {
+            newRow--;
+        }
+        
+        // If the tile moved, update the board
+        if (newRow != r) {
+            board[newRow][c] = board[r][c];
+            board[r][c] = 0;
+        }
+        
+        // No merge occurred in this implementation yet
         return 0;
     }
 
