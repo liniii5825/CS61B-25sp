@@ -32,14 +32,26 @@ public class GameLogic {
             newRow--;
         }
         
-        // If the tile moved, update the board
-        if (newRow != r) {
-            board[newRow][c] = board[r][c];
-            board[r][c] = 0;
-        }
+        // Store the value of the current tile
+        int tileValue = board[r][c];
         
-        // No merge occurred in this implementation yet
-        return 0;
+        // Check if we can merge with the tile above
+        if (newRow > 0 && board[newRow - 1][c] == tileValue) {
+            // Merge: double the value in the destination cell
+            board[newRow - 1][c] *= 2;
+            // Clear the original cell
+            board[r][c] = 0;
+            // Return 1 + the row where merge occurred
+            return 1 + (newRow - 1);
+        } else {
+            // If the tile moved but no merge, update the board
+            if (newRow != r) {
+                board[newRow][c] = tileValue;
+                board[r][c] = 0;
+            }
+            // No merge occurred
+            return 0;
+        }
     }
 
     /**
