@@ -58,11 +58,37 @@ public class ArrayDeque61BTest {
         deque.addLast("c");
         deque.addFirst("a");
         deque.addLast("d");
-        
+
         // Check the items are in correct order
         List<String> actual = deque.toList();
         assertThat(actual).containsExactly("a", "b", "c", "d").inOrder();
         assertThat(deque.size()).isEqualTo(4);
+    }
+    
+    @Test
+    @DisplayName("get returns items at correct indices")
+    void getTest() {
+        ArrayDeque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("a");
+        deque.addLast("b");
+        deque.addLast("c");
+        deque.addFirst("z");
+        deque.addFirst("y");
+        
+        // Test regular indices
+        assertThat(deque.get(0)).isEqualTo("y");
+        assertThat(deque.get(1)).isEqualTo("z");
+        assertThat(deque.get(2)).isEqualTo("a");
+        assertThat(deque.get(3)).isEqualTo("b");
+        assertThat(deque.get(4)).isEqualTo("c");
+        
+        // Test out of bounds index
+        assertThat(deque.get(-1)).isNull();
+        assertThat(deque.get(5)).isNull();
+        
+        // Test with empty deque
+        ArrayDeque61B<Integer> emptyDeque = new ArrayDeque61B<>();
+        assertThat(emptyDeque.get(0)).isNull();
     }
 
 }

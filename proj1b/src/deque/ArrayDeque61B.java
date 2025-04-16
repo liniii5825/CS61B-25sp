@@ -70,7 +70,12 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T get(int index) {
-        return null;
+        if (index < 0 || index >= size) {
+            return null; // Return null if index is out of bounds
+        }
+        // Calculate the actual index in the array
+        int actualIndex = Math.floorMod(nextFirst + 1 + index, items.length); // nextFirst + 1 is the first valid index
+        return items[actualIndex];
     }
 
     @Override
