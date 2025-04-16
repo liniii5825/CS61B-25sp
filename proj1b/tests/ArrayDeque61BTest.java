@@ -74,21 +74,79 @@ public class ArrayDeque61BTest {
         deque.addLast("c");
         deque.addFirst("z");
         deque.addFirst("y");
-        
+
         // Test regular indices
         assertThat(deque.get(0)).isEqualTo("y");
         assertThat(deque.get(1)).isEqualTo("z");
         assertThat(deque.get(2)).isEqualTo("a");
         assertThat(deque.get(3)).isEqualTo("b");
         assertThat(deque.get(4)).isEqualTo("c");
-        
+
         // Test out of bounds index
         assertThat(deque.get(-1)).isNull();
         assertThat(deque.get(5)).isNull();
-        
+
         // Test with empty deque
         ArrayDeque61B<Integer> emptyDeque = new ArrayDeque61B<>();
         assertThat(emptyDeque.get(0)).isNull();
+    }
+    
+    @Test
+    @DisplayName("size returns correct number of items")
+    void sizeTest() {
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        assertThat(deque.size()).isEqualTo(0);
+        
+        deque.addFirst(1);
+        assertThat(deque.size()).isEqualTo(1);
+        
+        deque.addLast(2);
+        assertThat(deque.size()).isEqualTo(2);
+        
+        deque.addFirst(0);
+        deque.addLast(3);
+        assertThat(deque.size()).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("isEmpty returns correct boolean value")
+    void isEmptyTest() {
+        ArrayDeque61B<String> deque = new ArrayDeque61B<>();
+        assertThat(deque.isEmpty()).isTrue();
+        
+        deque.addFirst("item");
+        assertThat(deque.isEmpty()).isFalse();
+        
+        // Test after removing items
+        ArrayDeque61B<Integer> deque2 = new ArrayDeque61B<>();
+        deque2.addFirst(1);
+        deque2.addLast(2);
+        deque2.removeFirst();
+        deque2.removeLast();
+        assertThat(deque2.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("toList returns correct list representation")
+    void toListTest() {
+        ArrayDeque61B<Integer> emptyDeque = new ArrayDeque61B<>();
+        assertThat(emptyDeque.toList()).isEmpty();
+        
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        deque.addLast(10);
+        deque.addLast(20);
+        deque.addFirst(5);
+        deque.addFirst(1);
+        
+        List<Integer> expected = List.of(1, 5, 10, 20);
+        assertThat(deque.toList()).containsExactlyElementsIn(expected).inOrder();
+        
+        // After removal operations
+        deque.removeFirst();
+        assertThat(deque.toList()).containsExactly(5, 10, 20).inOrder();
+        
+        deque.removeLast();
+        assertThat(deque.toList()).containsExactly(5, 10).inOrder();
     }
 
 }

@@ -1,5 +1,6 @@
 package deque;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayDeque61B<T> implements Deque61B<T>{
@@ -45,17 +46,23 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public List<T> toList() {
-        return List.of();
+        List<T> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            // Calculate the actual index in the array
+            int actualIndex = Math.floorMod(nextFirst + 1 + i, items.length);
+            list.add(items[actualIndex]);
+        }
+        return list;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
