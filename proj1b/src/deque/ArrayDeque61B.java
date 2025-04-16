@@ -19,14 +19,28 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         nextLast = 1;
     }
     
+    /**
+     * Adds an item to the front of the deque.
+     * @param x The item to add.
+     */
     @Override
     public void addFirst(T x) {
-
+        items[nextFirst] = x;
+        // Move nextFirst pointer to the previous position (wrapping around if necessary)
+        nextFirst = Math.floorMod(nextFirst - 1, items.length);
+        size += 1; // Increment size after adding the item
     }
 
+    /**
+     * Adds an item to the end of the deque.
+     * @param x The item to add.
+     */
     @Override
     public void addLast(T x) {
-
+        items[nextLast] = x;
+        // Move nextLast pointer to the next position (wrapping around if necessary)
+        nextLast = Math.floorMod(nextLast + 1, items.length);
+        size += 1; 
     }
 
     @Override
