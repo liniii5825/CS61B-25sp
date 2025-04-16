@@ -207,29 +207,68 @@ public class ArrayDeque61BTest {
     @DisplayName("mixed add and remove operations work correctly")
     void mixedOperationsTest() {
         ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
-        
+
         deque.addFirst(10);
         deque.addLast(20);
         deque.addFirst(5);
-        
+
         assertThat(deque.toList()).containsExactly(5, 10, 20).inOrder();
-        
+
         assertThat(deque.removeFirst()).isEqualTo(5);
         deque.addLast(30);
         assertThat(deque.toList()).containsExactly(10, 20, 30).inOrder();
-        
+
         assertThat(deque.removeLast()).isEqualTo(30);
         deque.addFirst(0);
         assertThat(deque.toList()).containsExactly(0, 10, 20).inOrder();
-        
+
         // Remove all elements
         deque.removeFirst();
         deque.removeFirst();
         deque.removeLast();
         assertThat(deque.isEmpty()).isTrue();
-        
+
         // Add after removing all
         deque.addFirst(100);
         assertThat(deque.toList()).containsExactly(100);
+    }
+    
+    @Test
+    @DisplayName("Array resizes up correctly when capacity is reached")
+    void resizeUpTest() {
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        
+        // Initial capacity is 8, fill it up with addFirst
+        for (int i = 0; i < 8; i++) {
+            deque.addFirst(i);
+        }
+        
+        // Add one more to trigger resize
+        deque.addFirst(100);
+        
+        // Verify all elements are still accessible and in the correct order
+        assertThat(deque.size()).isEqualTo(9);
+        assertThat(deque.get(0)).isEqualTo(100);
+        for (int i = 0; i < 8; i++) {
+            assertThat(deque.get(i + 1)).isEqualTo(7 - i);
+        }
+        
+        // Test with addLast
+        ArrayDeque61B<String> deque2 = new ArrayDeque61B<>();
+        
+        // Fill initial capacity with addLast
+        for (int i = 0; i < 8; i++) {
+            deque2.addLast("item" + i);
+        }
+        
+        // Add one more to trigger resize
+        deque2.addLast("overflow");
+        
+        // Verify all elements are still accessible and in the correct order
+        assertThat(deque2.size()).isEqualTo(9);
+        for (int i = 0; i < 8; i++) {
+            assertThat(deque2.get(i)).isEqualTo("item" + i);
+        }
+        assertThat(deque2.get(8)).isEqualTo("overflow");
     }
 }

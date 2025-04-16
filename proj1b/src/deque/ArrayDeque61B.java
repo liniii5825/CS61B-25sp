@@ -6,8 +6,8 @@ import java.util.List;
 public class ArrayDeque61B<T> implements Deque61B<T>{
     private T[] items;
     private int size;
-    private int nextFirst;
-    private int nextLast;
+    private int nextFirst; // moving forwards
+    private int nextLast; // moving backwards
 
     /**
      * Creates an empty array deque with initial capacity of 8.
@@ -26,6 +26,11 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addFirst(T x) {
+        // Resize if array is full
+        if (size == items.length) {
+            resize(items.length * 2);
+        }
+        
         items[nextFirst] = x;
         // Move nextFirst pointer to the previous position (wrapping around if necessary)
         nextFirst = Math.floorMod(nextFirst - 1, items.length);
@@ -38,10 +43,34 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addLast(T x) {
+        // Resize if array is full
+        if (size == items.length) {
+            resize(items.length * 2);
+        }
+        
         items[nextLast] = x;
         // Move nextLast pointer to the next position (wrapping around if necessary)
         nextLast = Math.floorMod(nextLast + 1, items.length);
         size += 1; 
+    }
+    
+    /**
+     * Resizes the array to the target capacity.
+     * @param capacity The new capacity of the array.
+     */
+    @SuppressWarnings("unchecked")
+    private void resize(int capacity) {
+        T[] newItems = (T[]) new Object[capacity];
+        
+        // Copy all elements to the new array starting at index 0
+        for (int i = 0; i < size; i++) {
+            int oldIndex = Math.floorMod(nextFirst + 1 + i, items.length);
+            newItems[i] = items[oldIndex];
+        }
+        
+        items = newItems;
+        nextFirst = capacity - 1; // Set nextFirst to the end of the array
+        nextLast = size; // Set nextLast right after the last element
     }
 
     @Override
@@ -80,7 +109,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         int firstIndex = Math.floorMod(nextFirst + 1, items.length);
 
         T firstItem = items[firstIndex];
-        
+
         // Set the item to null to allow garbage collection
         items[firstIndex] = null;
         nextFirst = firstIndex;
