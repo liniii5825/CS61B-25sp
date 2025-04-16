@@ -271,4 +271,51 @@ public class ArrayDeque61BTest {
         }
         assertThat(deque2.get(8)).isEqualTo("overflow");
     }
+
+    @Test
+    @DisplayName("Array resizes down correctly when removing items")
+    void resizeDownTest() {
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        
+        // Fill deque with 16 elements to ensure resize up
+        for (int i = 0; i < 16; i++) {
+            deque.addLast(i);
+        }
+        
+        // Verify we have 16 elements
+        assertThat(deque.size()).isEqualTo(16);
+        
+        // Remove 12 elements
+        for (int i = 0; i < 12; i++) {
+            deque.removeFirst();
+        }
+        
+        // Verify remaining elements are still accessible and in correct order
+        assertThat(deque.size()).isEqualTo(4);
+        for (int i = 0; i < 4; i++) {
+            assertThat(deque.get(i)).isEqualTo(i + 12);
+        }
+        
+        // Test with mixed removals
+        ArrayDeque61B<String> deque2 = new ArrayDeque61B<>();
+        
+        // Fill with 20 elements to ensure resize up
+        for (int i = 0; i < 20; i++) {
+            deque2.addLast("item" + i);
+        }
+        
+        // Remove from both ends
+        for (int i = 0; i < 8; i++) {
+            if (i % 2 == 0) {
+                deque2.removeFirst();
+            } else {
+                deque2.removeLast();
+            }
+        }
+        
+        // Verify remaining elements are correct
+        assertThat(deque2.size()).isEqualTo(12);
+        assertThat(deque2.get(0)).isEqualTo("item4");
+        assertThat(deque2.get(11)).isEqualTo("item15");
+    }
 }

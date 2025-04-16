@@ -105,6 +105,11 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
             return null;
         }
 
+        // Resize if array is large
+        if (size < (items.length) / 4 && items.length > 8) {
+            resize(items.length / 2);
+        }
+
         // Calculate the index of the first item
         int firstIndex = Math.floorMod(nextFirst + 1, items.length);
 
@@ -127,6 +132,11 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         // Return null if the deque is empty
         if (isEmpty()) {
             return null;
+        }
+
+        // Resize if array is large
+        if (size < (items.length) / 4 && items.length > 8) {
+            resize(items.length / 2);
         }
         
         // Calculate the index of the last item
