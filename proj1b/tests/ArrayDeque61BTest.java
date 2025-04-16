@@ -149,4 +149,87 @@ public class ArrayDeque61BTest {
         assertThat(deque.toList()).containsExactly(5, 10).inOrder();
     }
 
+    @Test
+    @DisplayName("removeFirst removes and returns the first item")
+    void removeFirstTest() {
+        // Test with multiple items
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        deque.addLast(10);
+        deque.addLast(20);
+        deque.addLast(30);
+        
+        assertThat(deque.removeFirst()).isEqualTo(10);
+        assertThat(deque.size()).isEqualTo(2);
+        assertThat(deque.toList()).containsExactly(20, 30).inOrder();
+        
+        assertThat(deque.removeFirst()).isEqualTo(20);
+        assertThat(deque.size()).isEqualTo(1);
+        assertThat(deque.toList()).containsExactly(30);
+        
+        assertThat(deque.removeFirst()).isEqualTo(30);
+        assertThat(deque.size()).isEqualTo(0);
+        assertThat(deque.isEmpty()).isTrue();
+        
+        // Test with empty deque
+        ArrayDeque61B<Integer> emptyDeque = new ArrayDeque61B<>();
+        assertThat(emptyDeque.removeFirst()).isNull();
+        assertThat(emptyDeque.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("removeLast removes and returns the last item")
+    void removeLastTest() {
+        // Test with multiple items
+        ArrayDeque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("a");
+        deque.addLast("b");
+        deque.addLast("c");
+        
+        assertThat(deque.removeLast()).isEqualTo("c");
+        assertThat(deque.size()).isEqualTo(2);
+        assertThat(deque.toList()).containsExactly("a", "b").inOrder();
+        
+        assertThat(deque.removeLast()).isEqualTo("b");
+        assertThat(deque.size()).isEqualTo(1);
+        assertThat(deque.toList()).containsExactly("a");
+        
+        assertThat(deque.removeLast()).isEqualTo("a");
+        assertThat(deque.size()).isEqualTo(0);
+        assertThat(deque.isEmpty()).isTrue();
+        
+        // Test with empty deque
+        ArrayDeque61B<String> emptyDeque = new ArrayDeque61B<>();
+        assertThat(emptyDeque.removeLast()).isNull();
+        assertThat(emptyDeque.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("mixed add and remove operations work correctly")
+    void mixedOperationsTest() {
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+        
+        deque.addFirst(10);
+        deque.addLast(20);
+        deque.addFirst(5);
+        
+        assertThat(deque.toList()).containsExactly(5, 10, 20).inOrder();
+        
+        assertThat(deque.removeFirst()).isEqualTo(5);
+        deque.addLast(30);
+        assertThat(deque.toList()).containsExactly(10, 20, 30).inOrder();
+        
+        assertThat(deque.removeLast()).isEqualTo(30);
+        deque.addFirst(0);
+        assertThat(deque.toList()).containsExactly(0, 10, 20).inOrder();
+        
+        // Remove all elements
+        deque.removeFirst();
+        deque.removeFirst();
+        deque.removeLast();
+        assertThat(deque.isEmpty()).isTrue();
+        
+        // Add after removing all
+        deque.addFirst(100);
+        assertThat(deque.toList()).containsExactly(100);
+    }
 }

@@ -65,14 +65,50 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         return size;
     }
 
+    /**
+     * Removes and returns the first item from the deque.
+     * @return The first item, or null if the deque is empty.
+     */
     @Override
     public T removeFirst() {
-        return null;
+        // Return null if the deque is empty
+        if (isEmpty()) {
+            return null;
+        }
+
+        // Calculate the index of the first item
+        int firstIndex = Math.floorMod(nextFirst + 1, items.length);
+
+        T firstItem = items[firstIndex];
+        
+        // Set the item to null to allow garbage collection
+        items[firstIndex] = null;
+        nextFirst = firstIndex;
+        size -= 1;
+
+        return firstItem;
     }
 
+    /**
+     * Removes and returns the last item from the deque.
+     * @return The last item, or null if the deque is empty.
+     */
     @Override
     public T removeLast() {
-        return null;
+        // Return null if the deque is empty
+        if (isEmpty()) {
+            return null;
+        }
+        
+        // Calculate the index of the last item
+        int lastIndex = Math.floorMod(nextLast - 1, items.length);
+
+        T lastItem = items[lastIndex];
+        items[lastIndex] = null;
+        nextLast = lastIndex;
+        size -= 1;
+        
+        return lastItem;
     }
 
     @Override
@@ -87,6 +123,6 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T getRecursive(int index) {
-        return null;
+        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
     }
 }
