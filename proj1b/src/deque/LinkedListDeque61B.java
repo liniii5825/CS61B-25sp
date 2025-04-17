@@ -205,12 +205,43 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
             @Override
             public T next() {
                 if (!hasNext()) {
-                    return null; 
+                    return null;
                 }
                 T item = get(pos);
                 pos += 1;
                 return item;
             }
         };
+    }
+    
+    /**
+     * Compares this deque with the specified object for equality.
+     * Two deques are considered equal if they have the same number of items
+     * and the same items in the same order.
+     *
+     * @param o the object to be compared for equality with this deque
+     * @return true if the specified object is equal to this deque, false otherwise
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        // Check if the object is null or not an instance of Deque61B
+        if (o == null || !(o instanceof Deque61B)) {
+            return false;
+        }
+        
+        Deque61B<T> other = (Deque61B<T>) o;
+        if (this.size() != other.size()) {
+            return false;
+        }
+        
+        List<T> thisList = this.toList();
+        List<T> otherList = other.toList();
+        
+        return thisList.equals(otherList);
     }
 }
