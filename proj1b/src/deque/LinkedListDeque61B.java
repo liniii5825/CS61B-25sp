@@ -233,15 +233,37 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         if (o == null || !(o instanceof Deque61B)) {
             return false;
         }
-        
+
         Deque61B<T> other = (Deque61B<T>) o;
         if (this.size() != other.size()) {
             return false;
         }
-        
+
         List<T> thisList = this.toList();
         List<T> otherList = other.toList();
-        
+
         return thisList.equals(otherList);
+    }
+    
+    /**
+     * Returns a string representation of the deque.
+     * The string representation consists of the items in the deque, separated by commas.
+     * The items are enclosed in square brackets.
+     *
+     * @return a string representation of the deque
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        Node current = sentinel.next;
+        while (current != sentinel) {
+            sb.append(current.item);
+            if (current.next != sentinel) {
+                sb.append(", ");
+            }
+            current = current.next;
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

@@ -191,12 +191,29 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
             @Override
             public T next() {
                 if (!hasNext()) {
-                    return null; 
+                    return null;
                 }
                 T item = get(pos);
                 pos += 1;
                 return item;
             }
         };
+    }
+    
+    /**
+     * Returns a string representation of the deque.
+     * @return A string representation of the deque.
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(get(i));
+            if (i < size - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
